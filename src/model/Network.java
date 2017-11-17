@@ -10,9 +10,9 @@ public class Network extends IP {
   
   protected ArrayList<Subnet> subnets;
   
-  public Network(String addr, int mask, ArrayList<Subnet>[] subnets) {
+  public Network(String addr, int mask, ArrayList<Subnet> subnets) {
     super(addr, mask);
-    this.subnets = new ArrayList();
+    this.subnets = subnets;
   }
 
   public ArrayList<Subnet> getSubnets() {
