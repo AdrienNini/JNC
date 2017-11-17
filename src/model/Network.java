@@ -27,7 +27,7 @@ public class Network extends IP {
   
   /**
    * Creat a new subnet 
-   * if the subnets is imposible to creat return null esle return the new subnet
+   * if the subnets is imposible to creat return null esle return the new subnet and add this in the arrayList
    */
   public Subnet requestIP(int size) {
     Subnet subnet = null;
@@ -36,6 +36,7 @@ public class Network extends IP {
       String sub;
       sub = subnets.get(subnets.size()-1).getAddr();
       subnet = new Subnet(sub,m);
+      subnets.add(subnet);
     }
     return subnet;
   }
