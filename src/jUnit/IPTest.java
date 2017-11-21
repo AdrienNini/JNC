@@ -113,9 +113,18 @@ public class IPTest extends IP{
 		this.mask = 31;
 		assertEquals("255.255.255.254", this.getMask());
 		this.mask = 32;
-		assertEquals("255.255.255.255", this.getMask());
+		assertEquals("255.255.255.255", this.getMask());	
+	}
+	
+	/**
+	 * Test method for {@link model.IP#toString()}
+	 */
+	@Test
+	public void testToString() {
+		this.addr = new int[] {192,168,0,1};
+		this.mask = 24;
 		
-		
+		assertEquals("IP: 192.168.0.1; Mask: 255.255.255.0; Number Hosts possible: 254", this.toString());
 	}
 
 
