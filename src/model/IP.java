@@ -95,5 +95,16 @@ public abstract class IP {
 		return m;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString() {
+		return String.format("IP: %s; Mask: %s; Number Hosts possible: %d", 
+				this.getAddr(), 
+				this.getMask(), 
+				this.getHosts()
+			);
+	}
+	
 
 }
