@@ -10,12 +10,20 @@ public class Network extends IP {
   
   protected ArrayList<Subnet> subnets;
   
-  public Network(String addr, int mask, ArrayList<Subnet> subnets) {
+  /**
+ * Network contructor
+ * @param addr : IP address of the network
+ * @param mask : Network mask of the network (CIDR)
+ */
+public Network(String addr, int mask) {
     super(addr, mask);
-    this.subnets = subnets;
   }
 
-  public ArrayList<Subnet> getSubnets() {
+  /**
+ * Returns all the subnets the network knows 
+ * @return ArrayList<Subnet> : array of the subnets
+ */
+public ArrayList<Subnet> getSubnets() {
     return subnets;
   }
   
@@ -26,8 +34,10 @@ public class Network extends IP {
   
   
   /**
-   * Creat a new subnet 
-   * if the subnets is imposible to creat return null esle return the new subnet and add this in the arrayList
+   * Create a new subnet 
+   * if the subnets is imposible to create return null 
+   * esle return the new subnet and add it in the arrayList
+   * @param size : The size needed for the subnet
    */
   public Subnet requestIP(int size) {
     Subnet subnet = null;
@@ -41,7 +51,10 @@ public class Network extends IP {
     return subnet;
   }
 
-  @Override
+  /* (non-Javadoc)
+ * @see model.IP#toString()
+ */
+@Override
   public String toString() {
     return String.format("%s subnets : %s", super.toString(), this.getSubnets().toString());
   }
