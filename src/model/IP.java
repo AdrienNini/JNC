@@ -10,6 +10,8 @@ package model;
  */
 public abstract class IP {
 	
+	//TODO: Update UML Diagram
+	
 	/**
 	 * Ip address of the network in bytes
 	 */
@@ -97,6 +99,29 @@ public abstract class IP {
 		}
 		
 		return m;
+	}
+	
+	public int[] addAddr(int n) {
+			
+		int[] tmpAddr = new int[4];
+		
+		for (int i = 0; i < this.addr.length; i++) {
+			if (i != 3) {
+				tmpAddr[i] = this.addr[i];
+			} else {
+				if ((this.addr[i] + n) / 255 == 0) {
+					tmpAddr[i] = this.addr[i] + n;
+					n = 0;
+				} else {
+					tmpAddr[i-1] = (int) (Math.floor(this.addr[i] + n) / 255);
+					tmpAddr[i] = (this.addr[i] + n) % 255;
+				}
+			}
+		}
+		
+		return tmpAddr;
+		
+		
 	}
 	
 	/* (non-Javadoc)

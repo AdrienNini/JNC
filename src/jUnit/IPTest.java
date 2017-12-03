@@ -15,7 +15,16 @@ import model.IP;
  * @author Adrien
  *
  */
+/**
+ * @author Adrien
+ *
+ */
+/**
+ * @author Adrien
+ *
+ */
 public class IPTest extends IP{
+
 
 	/**
 	 * Test method for {@link model.IP#getHosts()}.
@@ -24,12 +33,10 @@ public class IPTest extends IP{
 	public void testGetHosts() {
 		
 		for (int i = 0; i < 33; i++) {
-			System.out.println(i);
+			//System.out.println(i);
 			this.mask = i;
 			assertEquals((int) Math.pow(2, 32-i) - 2, this.getHosts(), 0);
 		}
-		
-		
 		
 	}
 
@@ -114,6 +121,16 @@ public class IPTest extends IP{
 		assertEquals("255.255.255.254", this.getMask());
 		this.mask = 32;
 		assertEquals("255.255.255.255", this.getMask());	
+	}
+	
+	
+	/**
+	 * Test method for {@link model.IP#addAddr(int)}.
+	 */
+	@Test
+	public void testAddAddr() {
+		this.addr = new int[]{192, 168, 0, 16};
+		assertEquals("192.168.2.6", this.addAddr(500));
 	}
 	
 	/**
