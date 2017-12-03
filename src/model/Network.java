@@ -17,6 +17,7 @@ public class Network extends IP {
  */
 public Network(String addr, int mask) {
     super(addr, mask);
+    this.subnets = new ArrayList<Subnet>();
   }
 
   /**
@@ -41,14 +42,27 @@ public ArrayList<Subnet> getSubnets() {
    */
   public Subnet requestIP(int size) {
     Subnet subnet = null;
-    int m = (int) Math.ceil(Math.sqrt(size));
-    if(32 - this.mask <= m) {
-      String sub;
-      sub = subnets.get(subnets.size()-1).getAddr();
-      subnet = new Subnet(sub,m);
+    int m = (int) Math.ceil(Math.log10(size) / Math.log10(2.)); // Determine the number of bits needed for the hosts
+    if (this.getHosts(m) < size) m++; 
+    int subMask = 32-m; // Determine the mask value
+    
+    if(this.getHosts() >= this.getHostsUsed() + this.getHosts(subMask)) { // Check if there's enough hosts
+      String sub = this.getAddr();
+      if (subnets.size() > 0) {
+    	  	sub = subnets.get(subnets.size()-1).getAddr();
+      }
+      subnet = new Subnet(sub,subMask);
       subnets.add(subnet);
     }
     return subnet;
+  }
+  
+  private int getHostsUsed() {
+	  int totalHostsUsed = 0;
+	  for(Subnet sub: subnets) {
+		  totalHostsUsed += sub.getHosts();
+	  }
+	  return totalHostsUsed;
   }
 
   /* (non-Javadoc)
