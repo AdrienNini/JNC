@@ -36,14 +36,14 @@ public abstract class IP {
 	 * @param mask int : The mask value in CIDR
 	 */
 	public IP(String addr, int mask) {
-		String[] addrArray = addr.split(".");
+		String[] addrArray;
+		addrArray = addr.split("\\.");
 		this.addr = new int[] {
 				Integer.parseInt(addrArray[0]), 
 				Integer.parseInt(addrArray[1]), 
 				Integer.parseInt(addrArray[2]), 
 				Integer.parseInt(addrArray[3])
 			};
-		
 		this.mask = mask;
 	}
 	
@@ -55,6 +55,10 @@ public abstract class IP {
 		
 		return (int) Math.pow(2, 32-this.mask) - 2;
 		
+	}
+	
+	public int getHosts(int m) {
+		return (int) Math.pow(2, 32-m) - 2;
 	}
 	
 	/**
