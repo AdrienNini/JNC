@@ -13,6 +13,10 @@ public class Subnet extends IP{
 	private int[] lastIpHost;
 	private int[] broadcast;
 	
+	/**
+	 * Defaut Constructor.
+	 * By Default, sets the variables to 0.0.0.0
+	 */
 	public Subnet() {
 		super();
 		this.firstIpHost = new int[] {0x00, 0x00, 0x00, 0x00};
@@ -20,6 +24,11 @@ public class Subnet extends IP{
 		this.broadcast = new int[] {0x00, 0x00, 0x00, 0x00};	
 	}
 	
+	/**
+	 * Constructor with parameters.
+	 * @param addr: Ip address
+	 * @param mask: Mask in CIDR notation
+	 */
 	public Subnet(String addr, int mask) {
 		super(addr, mask);
 		this.firstIpHost = this.addAddr(1);
@@ -27,6 +36,10 @@ public class Subnet extends IP{
 		this.broadcast = this.addAddr(this.getHosts() + 1);
 	}
 	
+	/**
+	 * Returns the First Ip usable.
+	 * @return String
+	 */
 	public String getFirstIpHost() {
 		return String.format("%d.%d.%d.%d", 
 				this.firstIpHost[0],
@@ -36,6 +49,10 @@ public class Subnet extends IP{
 			);
 	}
 	
+	/**
+	 * Returns the Last Ip usable.
+	 * @return String
+	 */
 	public String getLastIpHost() {
 		return String.format("%d.%d.%d.%d", 
 				this.lastIpHost[0],
@@ -45,6 +62,10 @@ public class Subnet extends IP{
 			);
 	}
 	
+	/**
+	 * Return the broadcast Address.
+	 * @return String
+	 */
 	public String getBroadcast() {
 		return String.format("%d.%d.%d.%d", 
 				this.broadcast[0],

@@ -130,7 +130,11 @@ public class IPTest extends IP{
 	@Test
 	public void testAddAddr() {
 		this.addr = new int[]{192, 168, 0, 16};
-		assertEquals("192.168.2.6", this.addAddr(500));
+		int[] calculatedAddress = this.addAddr(500);
+		assertEquals(192, calculatedAddress[0]);
+		assertEquals(168, calculatedAddress[1]);
+		assertEquals(2, calculatedAddress[2]);
+		assertEquals(6, calculatedAddress[3]);
 	}
 	
 	/**

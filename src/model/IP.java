@@ -101,6 +101,11 @@ public abstract class IP {
 		return m;
 	}
 	
+	/**
+	 * Add an int to the Ip Address.
+	 * @param n: int to add to the address
+	 * @return int: the result of the addition
+	 */
 	public int[] addAddr(int n) {
 			
 		int[] tmpAddr = new int[4];
