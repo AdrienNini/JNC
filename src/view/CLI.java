@@ -1,9 +1,10 @@
 package view;
 
+
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.Files;
+import java.io.InputStreamReader;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Scanner;
@@ -18,20 +19,13 @@ import model.ModelNetwork;
 public class CLI extends ViewNetwork implements Observer {
 	
 	private Scanner sc;
-	private String welcomeMsg = 
-			"╔═════════════════════════════════════════════════════════════════════════════╗\n" + 
-			"║  _    _      _                            _            ___ _   _ _____   _  ║\n" + 
-			"║ | |  | |    | |                          | |          |_  | \\ | /  __ \\ | | ║\n" + 
-			"║ | |  | | ___| | ___ ___  _ __ ___   ___  | |_ ___       | |  \\| | /  \\/ | | ║\n" + 
-			"║ | |/\\| |/ _ \\ |/ __/ _ \\| '_ ` _ \\ / _ \\ | __/ _ \\      | | . ` | |     | | ║\n" + 
-			"║ \\  /\\  /  __/ | (_| (_) | | | | | |  __/ | || (_) | /\\__/ / |\\  | \\__/\\ |_| ║\n" + 
-			"║  \\/  \\/ \\___|_|\\___\\___/|_| |_| |_|\\___|  \\__\\___/  \\____/\\_| \\_/\\____/ (_) ║\n" + 
-			"╚═════════════════════════════════════════════════════════════════════════════╝\n" + 
-			" Ce programme vous permet de calculer un table d’adressage rapidement et\n" + 
-			" simplement.";
+	private String txtFolderPath = "/Users/Adrien/OneDrive - EPHEC asbl/Cours/Dev. informatique - Application/Pratique/PROJET/JNC/txt/";
 
 	public CLI(ModelNetwork m, ControllerNetwork c) {
 		super(m, c);
+		
+		
+		
 		this.update(null, null);
 		this.sc = new Scanner(System.in);
 		
@@ -41,10 +35,15 @@ public class CLI extends ViewNetwork implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		printWelcome();
+		printInstructions();
 	}
 	
 	private void printWelcome() {
-		this.show(this.welcomeMsg);
+		this.show(readFile(this.txtFolderPath + "welcomeMsg.txt"));
+	}
+	
+	private void printInstructions() {
+		this.show(readFile(this.txtFolderPath + "instructions.txt"));
 	}
 	
 	private class ReadInput implements Runnable {
@@ -63,5 +62,22 @@ public class CLI extends ViewNetwork implements Observer {
 		
 		System.out.println(string);
 		
+	}
+	
+	private String readFile(String path) {
+		String out = "";
+		try {
+			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
+			String line = "";
+			
+			while ((line =  reader.readLine()) != null) {
+				out += line + "\n";
+			}
+			
+			reader.close();
+		} catch (IOException e) {
+			System.err.println("Error !");
+		}
+		return out;
 	}
 }
