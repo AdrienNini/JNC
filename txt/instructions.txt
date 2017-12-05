@@ -1,0 +1,6 @@
+INSTRUCTIONS :
+¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+1. Entrez votre adresse IPv4 au format xxx.xxx.xxx.xxx
+2. Entrez votre masque de sous-réseau au format CIDR (ex: /24, /26)
+3. Entrez le nombre d'hôtes dont vous avez besoin pour chaque sous-réseau
+4. Répétez l'étape 3 autant de fois que nécéssaire
