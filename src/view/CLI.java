@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Observable;
 import java.util.Observer;
@@ -12,6 +13,7 @@ import java.util.Scanner;
 
 import controller.ControllerNetwork;
 import model.ModelNetwork;
+import model.Subnet;
 
 /**
  * @author Adrien
@@ -36,10 +38,16 @@ public class CLI extends ViewNetwork implements Observer {
 		new Thread(new ReadInput()).start();
 	}
 
+	
 	@Override
 	public void update(Observable o, Object arg) {
-		printWelcome();
-		printInstructions();
+		if (arg == null) {
+			printWelcome();
+			printInstructions();
+		} else {
+			makeTable(model.getSubnets());
+		}
+		
 	}
 	
 	/**
@@ -61,14 +69,16 @@ public class CLI extends ViewNetwork implements Observer {
 		@Override
 		public void run() {
 			boolean endProgram = false;
-			boolean isIpOk = false;
-			boolean isMaskOk = false;
+			
 			
 			while(!endProgram) {
-				String ip;
-				int mask;
+				
+				String ip = null;
+				int mask = 0;
 				
 				// REQUEST THE IP ADDRESS TO THE USER
+				boolean isIpOk = false;
+				
 				while (!isIpOk) {
 					show("Veuillez entrez votre adresse IPv4 :");
 					ip = sc.next();
@@ -82,6 +92,8 @@ public class CLI extends ViewNetwork implements Observer {
 				}
 				
 				// REQUEST THE NETMASK TO THE USER
+				boolean isMaskOk = false;
+				
 				while (!isMaskOk) {
 					show("Veuillez entrez le masque au format CIDR (sans le slash) :");
 					try {
@@ -94,13 +106,46 @@ public class CLI extends ViewNetwork implements Observer {
 							show("Le masque ne peut pas être inférieur à 0 ou supérieur a 32 !\n");
 						}
 					} catch (InputMismatchException e) {
-						show("Veuillez entrez un masque correcte !\n");
+						show("Veuillez entrer un masque correcte !\n");
 					}
-					
 				}
 				
+				// Asking the controller to create the network
+				controller.createNetwork(ip, mask);
+				show("Vous avez le réseau : " + controller.getNetwork() + "\n");
 				
-				show("End of program...");
+				// Asking the size for each subnet
+				boolean nextSubnet = true;
+				ArrayList<Integer> sizes = new ArrayList<Integer>();
+				int size;
+				int i = 1;
+				
+				while (nextSubnet) {
+					show("Entrez la nombre de hôtes pour le sous-réseau n°"+ i + " :");
+					try {
+						size = sc.nextInt();
+						if (size > 0) {
+							if (confirm("Confirmez-vous la taille suivante ? : " + size )) {
+								sizes.add(size);
+								if (!(nextSubnet = confirm("Voulez-vous ajouter un autre sous-réseau ?"))) {
+									if (!controller.requestIp(sizes)) {
+										show("Votre adressage est impossible ! Veuillez recommencer...\n");
+										nextSubnet = true;
+										i = 1;
+									}
+								}
+							}
+						} else {
+							show("La taille doit être supérieure à 0 !\n");
+						}
+						i++;
+					} catch (InputMismatchException e) {
+						show("Veuillez entrer une taille correcte !\n");
+					}
+				}
+			
+				
+				
 				endProgram = true;
 			}
 			
@@ -115,7 +160,19 @@ public class CLI extends ViewNetwork implements Observer {
 		
 	}
 	
+	private void makeTable(ArrayList<Subnet> subnets) {
+		
+		for (Subnet sub: subnets) {
+			this.show(sub.toString());
+		}
+		
+	}
 	
+	/**
+	 * Asks to the users to confirm his input
+	 * @param confirmMsg : ask confirmation message.
+	 * @return boolean
+	 */
 	private boolean confirm(String confirmMsg) {
 		this.show(confirmMsg + " [o/n]");
 		while (true) {

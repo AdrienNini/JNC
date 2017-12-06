@@ -12,6 +12,7 @@ public class Subnet extends IP{
 	private int[] firstIpHost;
 	private int[] lastIpHost;
 	private int[] broadcast;
+	private int[] nextSubnetAddr;
 	
 	/**
 	 * Defaut Constructor.
@@ -34,6 +35,7 @@ public class Subnet extends IP{
 		this.firstIpHost = this.addAddr(1);
 		this.lastIpHost = this.addAddr(this.getHosts());
 		this.broadcast = this.addAddr(this.getHosts() + 1);
+		this.nextSubnetAddr = this.addAddr(this.getHosts() + 2);
 	}
 	
 	/**
@@ -72,6 +74,19 @@ public class Subnet extends IP{
 				this.broadcast[1],
 				this.broadcast[2],
 				this.broadcast[3]
+			);
+	}
+	
+	/**
+	 * Return the next Subnet address.
+	 * @return String
+	 */
+	public String getNextSubnetAddr() {
+		return String.format("%d.%d.%d.%d", 
+				this.nextSubnetAddr[0],
+				this.nextSubnetAddr[1],
+				this.nextSubnetAddr[2],
+				this.nextSubnetAddr[3]
 			);
 	}
 	

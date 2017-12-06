@@ -43,13 +43,14 @@ public ArrayList<Subnet> getSubnets() {
   public Subnet requestIP(int size) {
     Subnet subnet = null;
     int m = (int) Math.ceil(Math.log10(size) / Math.log10(2.)); // Determine the number of bits needed for the hosts
-    if (this.getHosts(m) < size) m++; 
+    
+    if (this.getHosts(32-m) < size) m++;
     int subMask = 32-m; // Determine the mask value
     
     if(this.getHosts() >= this.getHostsUsed() + this.getHosts(subMask)) { // Check if there's enough hosts
       String sub = this.getAddr();
       if (subnets.size() > 0) {
-    	  	sub = subnets.get(subnets.size()-1).getAddr();
+    	  	sub = subnets.get(subnets.size()-1).getNextSubnetAddr();
       }
       subnet = new Subnet(sub,subMask);
       subnets.add(subnet);
