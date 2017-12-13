@@ -48,11 +48,11 @@ public ArrayList<Subnet> getSubnets() {
     int subMask = 32-m; // Determine the mask value
     
     if(this.getHosts() >= this.getHostsUsed() + this.getHosts(subMask)) { // Check if there's enough hosts
-      String sub = this.getAddr();
+      String subAddr = this.getAddr();
       if (subnets.size() > 0) {
-    	  	sub = subnets.get(subnets.size()-1).getNextSubnetAddr();
+    	  	subAddr = subnets.get(subnets.size()-1).getNextSubnetAddr();
       }
-      subnet = new Subnet(sub,subMask);
+      subnet = new Subnet(subAddr,subMask);
       subnets.add(subnet);
     }
     return subnet;

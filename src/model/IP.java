@@ -108,19 +108,14 @@ public abstract class IP {
 	 */
 	public int[] addAddr(int n) {
 			
-		int[] tmpAddr = new int[4];
+		int[] tmpAddr = this.addr.clone();
 		
-		for (int i = 0; i < this.addr.length; i++) {
-			if (i != 3) {
-				tmpAddr[i] = this.addr[i];
-			} else {
-				if ((this.addr[i] + n) / 255 == 0) {
-					tmpAddr[i] = this.addr[i] + n;
-					n = 0;
-				} else {
-					tmpAddr[i-1] = (int) (Math.floor(this.addr[i] + n) / 255);
-					tmpAddr[i] = (this.addr[i] + n) % 255;
-				}
+		tmpAddr[3] += n;
+		
+		for (int i = tmpAddr.length-1; i >= 0; i--) {
+			while (tmpAddr[i] > 255) {
+				tmpAddr[i-1] += 1;
+				tmpAddr[i] -= 255;
 			}
 		}
 		

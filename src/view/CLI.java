@@ -64,12 +64,16 @@ public class CLI extends ViewNetwork implements Observer {
 		this.show(readFile(this.txtFolderPath + "instructions.txt"));
 	}
 	
+	/**
+	 * @author Adrien
+	 * Main running Class
+	 */
 	private class ReadInput implements Runnable {
-
+		
+		private volatile boolean endProgram = false;
+		
 		@Override
 		public void run() {
-			boolean endProgram = false;
-			
 			
 			while(!endProgram) {
 				
@@ -107,6 +111,7 @@ public class CLI extends ViewNetwork implements Observer {
 						}
 					} catch (InputMismatchException e) {
 						show("Veuillez entrer un masque correcte !\n");
+						sc.nextLine();
 					}
 				}
 				
@@ -131,7 +136,7 @@ public class CLI extends ViewNetwork implements Observer {
 									if (!controller.requestIp(sizes)) {
 										show("Votre adressage est impossible ! Veuillez recommencer...\n");
 										nextSubnet = true;
-										i = 1;
+										i = 0;
 									}
 								}
 							}
@@ -141,6 +146,7 @@ public class CLI extends ViewNetwork implements Observer {
 						i++;
 					} catch (InputMismatchException e) {
 						show("Veuillez entrer une taille correcte !\n");
+						sc.nextLine();
 					}
 				}
 			
@@ -160,6 +166,10 @@ public class CLI extends ViewNetwork implements Observer {
 		
 	}
 	
+	/**
+	 * Displays the addressing table
+	 * @param subnets : list of all the subnets
+	 */
 	private void makeTable(ArrayList<Subnet> subnets) {
 		
 		for (Subnet sub: subnets) {
