@@ -4,6 +4,8 @@
 package main;
 
 
+import java.awt.EventQueue;
+
 import controller.ControllerNetwork;
 import model.ModelNetwork;
 import view.*;
@@ -16,17 +18,23 @@ public class Main {
 	
 	private ModelNetwork m;
 	private ControllerNetwork controlCLI;
+	private ControllerNetwork controlGUI;
 	private ViewNetwork cli;
+	private ViewNetwork gui;
+	
 	
 	public Main() {
 		
 		this.m = new ModelNetwork();
 		
 		this.controlCLI = new ControllerNetwork(this.m);
+		this.controlGUI = new ControllerNetwork(this.m);
 		
 		this.cli = new CLI(this.m, this.controlCLI);
+		this.gui = new GUI(this.m, this.controlGUI);
 		
 		this.controlCLI.addView(this.cli);
+		this.controlGUI.addView(this.gui);
 		
 	}
 
@@ -36,7 +44,16 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		
-		new Main();	
+		EventQueue.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				new Main();	
+			}
+			
+		});
+		
 		
 	}
 
