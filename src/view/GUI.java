@@ -14,6 +14,7 @@ import model.ModelNetwork;
  */
 public class GUI extends ViewNetwork{
 	
+	
 	public GUI(ModelNetwork m, ControllerNetwork c) {
 		super(m, c);
 	}

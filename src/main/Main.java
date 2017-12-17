@@ -32,7 +32,7 @@ public class Main {
 
 	/**
 	 * Main function of the program
-	 * @param args
+	 * @param args : arguments passed at the beginning of program
 	 */
 	public static void main(String[] args) {
 		

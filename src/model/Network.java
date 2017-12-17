@@ -22,7 +22,7 @@ public Network(String addr, int mask) {
 
   /**
  * Returns all the subnets the network knows 
- * @return ArrayList<Subnet> : array of the subnets
+ * @return ArrayList : array of the subnets
  */
 public ArrayList<Subnet> getSubnets() {
     return subnets;
@@ -39,6 +39,7 @@ public ArrayList<Subnet> getSubnets() {
    * if the subnets is imposible to create return null 
    * esle return the new subnet and add it in the arrayList
    * @param size : The size needed for the subnet
+   * @return Subnet : new Subnet or null
    */
   public Subnet requestIP(int size) {
     Subnet subnet = null;

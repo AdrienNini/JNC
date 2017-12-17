@@ -39,6 +39,9 @@ public class CLI extends ViewNetwork implements Observer {
 	}
 
 	
+	/* (non-Javadoc)
+	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
+	 */
 	@Override
 	public void update(Observable o, Object arg) {
 		if (arg == null) {
@@ -72,6 +75,9 @@ public class CLI extends ViewNetwork implements Observer {
 		
 		private volatile boolean endProgram = false;
 		
+		/* (non-Javadoc)
+		 * @see java.lang.Runnable#run()
+		 */
 		@Override
 		public void run() {
 			
@@ -86,7 +92,7 @@ public class CLI extends ViewNetwork implements Observer {
 				while (!isIpOk) {
 					show("Veuillez entrez votre adresse IPv4 :");
 					ip = sc.next();
-					if (ip.matches("\\b((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\\.|$)){4}\\b")) {
+					if (ip.matches("\\b((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\\.|$)){4}\\b")) { // Check if the input respects the forma
 						if (isIpOk = confirm("Confirmez-vous l'adresse ip suivante ? " + ip)) {
 							show("Adresse ip confirmée !\n");
 						}
@@ -159,6 +165,9 @@ public class CLI extends ViewNetwork implements Observer {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see view.ViewNetwork#show(java.lang.String)
+	 */
 	@Override
 	public void show(String string) {
 		
