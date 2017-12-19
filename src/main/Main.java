@@ -31,7 +31,7 @@ public class Main {
 		this.controlGUI = new ControllerNetwork(this.m);
 		
 		this.cli = new CLI(this.m, this.controlCLI);
-		this.gui = new GUI(this.m, this.controlGUI);
+		this.gui = new GUI(this.m, this.controlGUI, 450, 300);
 		
 		this.controlCLI.addView(this.cli);
 		this.controlGUI.addView(this.gui);

@@ -1,10 +1,6 @@
 package view;
 
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Observable;
@@ -208,33 +204,4 @@ public class CLI extends ViewNetwork implements Observer {
 		}
 	}
 	
-	/**
-	 * Read a text file from a directory and return its content
-	 * @param path : absolute path to the file
-	 * @return String : the file content
-	 */
-	private String readFile(String path) {
-		String out = "";
-		try {
-			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
-			String line = "";
-			
-			while ((line =  reader.readLine()) != null) {
-				out += line + "\n";
-			}
-			
-			reader.close();
-		} catch (IOException e) {
-			System.err.println("Error !");
-		}
-		return out;
-	}
-	
-	/**
-	 * Returns the current working directory
-	 * @return String : path to working directory
-	 */
-	private String getPath() {
-		return System.getProperty("user.dir");
-	}
 }
