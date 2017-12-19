@@ -22,7 +22,6 @@ import model.Subnet;
 public class CLI extends ViewNetwork implements Observer {
 	
 	private Scanner sc;
-	private String txtFolderPath = "/Users/Adrien/OneDrive - EPHEC asbl/Cours/Dev. informatique - Application/Pratique/PROJET/JNC/txt/";
 
 	/**
 	 * Class constructor
@@ -57,14 +56,15 @@ public class CLI extends ViewNetwork implements Observer {
 	 * Prints the welcome banner on the console 
 	 */
 	private void printWelcome() {
-		this.show(readFile(this.txtFolderPath + "welcomeMsg.txt"));
+		
+		this.show(readFile(this.getPath() + "/txt/welcomeMsg.txt"));
 	}
 	
 	/**
 	 * Prints the instructions on the console 
 	 */
 	private void printInstructions() {
-		this.show(readFile(this.txtFolderPath + "instructions.txt"));
+		this.show(readFile(this.getPath() + "/txt/instructions.txt"));
 	}
 	
 	/**
@@ -228,5 +228,13 @@ public class CLI extends ViewNetwork implements Observer {
 			System.err.println("Error !");
 		}
 		return out;
+	}
+	
+	/**
+	 * Returns the current working directory
+	 * @return String : path to working directory
+	 */
+	private String getPath() {
+		return System.getProperty("user.dir");
 	}
 }
