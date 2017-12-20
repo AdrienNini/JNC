@@ -54,6 +54,9 @@ public class GUI extends ViewNetwork implements ActionListener {
 	private ArrayList<JLabel> lblSubnets = new ArrayList<JLabel>();
 	private ArrayList<JSpinner> spinSubnets = new ArrayList<JSpinner>();
 	
+	// Subnets
+	ArrayList<Integer> sizes = new ArrayList<Integer>();
+	
 	
 	
 	
@@ -110,6 +113,7 @@ public class GUI extends ViewNetwork implements ActionListener {
 		footer.add(requestIP);		
 		requestIP.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				controller.createNetwork(ipField.getText(), (int) maskField.getValue());
 				JOptionPane.showMessageDialog(mainWindow, "Ip requested !");
 				clearWindow();
 				createGUI(width, height, 2);
@@ -183,9 +187,11 @@ public class GUI extends ViewNetwork implements ActionListener {
 		JPanel header = new JPanel();
 		this.contentPane.add(header, BorderLayout.NORTH);
 		
-		JLabel lblHeader = new JLabel("Configuration des sous-réseaux");
-		//lblHeader.setHorizontalAlignment(SwingConstants.LEFT);
+		
+		JLabel lblHeader = new JLabel("Configuration des sous-réseaux (" + this.controller.getNetwork() + ")");
+		lblHeader.setHorizontalAlignment(SwingConstants.LEFT);
 		header.add(lblHeader);
+		
 		
 		// Footer
 		JPanel footer = new JPanel();
@@ -196,7 +202,17 @@ public class GUI extends ViewNetwork implements ActionListener {
 		footer.add(geneSubnets);
 		geneSubnets.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(mainWindow, "Requesting subnets generation...");
+				
+				for (JSpinner spinSub : spinSubnets) {
+					sizes.add((int) spinSub.getValue());
+				}
+				
+				if (!controller.requestIp(sizes)) {
+					JOptionPane.showMessageDialog(mainWindow, "Adressage Impossible ! Veuillez recommencer !");
+				} else {
+					JOptionPane.showMessageDialog(mainWindow, "Adressage Réussi");
+				}
+				
 			}
 		});
 		
@@ -209,7 +225,7 @@ public class GUI extends ViewNetwork implements ActionListener {
 		
 		main = new JPanel();
 		mainPane.setViewportView(main);
-		main.setLayout(new MigLayout("","", ""));
+		main.setLayout(new MigLayout("","[][grow]", ""));
 		
 		// Subnets
 		
@@ -217,6 +233,9 @@ public class GUI extends ViewNetwork implements ActionListener {
 		
 		
 	}
+	
+	
+	// Methods for Second page
 	
 	private void addSubEntry() {
 		this.main.removeAll();
@@ -243,7 +262,7 @@ public class GUI extends ViewNetwork implements ActionListener {
 	private void subEntry() {
 		for (int i = 0; i < this.lblSubnets.size(); i++) {
 			this.main.add(lblSubnets.get(i), "cell 1 " + i);
-			this.main.add(spinSubnets.get(i), "cell 2 " + i);
+			this.main.add(spinSubnets.get(i), "cell 2 " + i + ", growx");
 			if (i == this.lblSubnets.size()-1) {
 				this.main.add(removeButton(), "cell 3 " + i);
 			}
@@ -279,7 +298,7 @@ public class GUI extends ViewNetwork implements ActionListener {
 		
 	}
 	
-	
+	// Multi pages methods
 	
 	private void enableButton() {
 		if (this.lblSubnets.size() > 0) {
@@ -292,6 +311,8 @@ public class GUI extends ViewNetwork implements ActionListener {
 	private void clearWindow() {
 		this.mainWindow.setVisible(false);
 	}
+	
+	// General Methods
 
 	/* (non-Javadoc)
 	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
