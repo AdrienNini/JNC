@@ -60,7 +60,7 @@ public class GUI extends ViewNetwork implements ActionListener {
 	public GUI(ModelNetwork m, ControllerNetwork c, int width, int height) {
 		super(m, c);
 		
-		this.createGUI(width, height, 2);
+		this.createGUI(width, height, 1);
 		
 	}
 	
@@ -225,19 +225,7 @@ public class GUI extends ViewNetwork implements ActionListener {
 		this.lblSubnets.add(new JLabel("Sous-réseau n° " + (this.lblSubnets.size()+1) + " :"));
 		this.spinSubnets.add(new JSpinner(new SpinnerNumberModel(1, 1, null, 1)));
 		
-		for (int i = 0; i < this.lblSubnets.size(); i++) {
-			this.main.add(lblSubnets.get(i), "cell 1 " + i);
-			this.main.add(spinSubnets.get(i), "cell 2 " + i);
-			if (i == this.lblSubnets.size()-1) {
-				this.main.add(removeButton(), "cell 3 " + i);
-			}
-		}
-		
-		addButton();
-		
-		this.mainWindow.validate();
-		this.mainWindow.repaint();
-		this.enableButton();
+		this.subEntry();
 	}
 	
 	private void removeSubEntry() {
@@ -247,19 +235,25 @@ public class GUI extends ViewNetwork implements ActionListener {
 		this.lblSubnets.remove(this.lblSubnets.size() - 1);
 		this.spinSubnets.remove(this.spinSubnets.size()-1);
 		
+		this.subEntry();
+		
+		
+	}
+	
+	private void subEntry() {
 		for (int i = 0; i < this.lblSubnets.size(); i++) {
 			this.main.add(lblSubnets.get(i), "cell 1 " + i);
 			this.main.add(spinSubnets.get(i), "cell 2 " + i);
-			if (i == this.lblSubnets.size()-1) this.main.add(removeButton(), "cell 3 " + i);
+			if (i == this.lblSubnets.size()-1) {
+				this.main.add(removeButton(), "cell 3 " + i);
+			}
 		}
-		
+
 		addButton();
-		
+
 		this.mainWindow.validate();
 		this.mainWindow.repaint();
 		this.enableButton();
-		
-		
 	}
 	
 	private void addButton() {
