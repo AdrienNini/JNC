@@ -12,7 +12,18 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Observable;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
+import javax.swing.JTextField;
+import javax.swing.JTextPane;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -115,7 +126,7 @@ public class GUI extends ViewNetwork implements ActionListener {
 		
 		JTextPane instructions = new JTextPane();
 		instructions.setEditable(false);
-		instructions.setText(this.readFile(this.getPath() + "/txt/instructions.txt"));
+		instructions.setText(this.readFile("/instructions.txt"));
 		instructions.setCaretPosition(0);
 		instructionsPane.setViewportView(instructions);
 		
