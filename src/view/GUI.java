@@ -126,7 +126,7 @@ public class GUI extends ViewNetwork implements ActionListener {
 		
 		JTextPane instructions = new JTextPane();
 		instructions.setEditable(false);
-		instructions.setText(this.readFile("/instructions.txt"));
+		instructions.setText(this.readFile("/txt/instructions.txt"));
 		instructions.setCaretPosition(0);
 		instructionsPane.setViewportView(instructions);
 		

@@ -3,6 +3,10 @@
  */
 package view;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Observer;
 
 import controller.ControllerNetwork;
@@ -36,7 +40,29 @@ public abstract class ViewNetwork implements Observer {
 	 * @return String : the file content
 	 */
 	protected String readFile(String path) {
-		return getClass().getClassLoader().getResource(path).getFile();
+		String out = ""; 
+	    try { 
+	      BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(getPath() + path))); 
+	      String line = ""; 
+	       
+	      while ((line =  reader.readLine()) != null) { 
+	        out += line + "\n"; 
+	      } 
+	       
+	      reader.close(); 
+	    } catch (IOException e) { 
+	      System.err.println("Error !"); 
+	    } 
+	    return out; 
+		
 	}
+	
+	/** 
+	   * Returns the current working directory 
+	   * @return String : path to working directory 
+	   */ 
+	  protected String getPath() { 
+	    return System.getProperty("user.dir"); 
+	  } 
 
 }

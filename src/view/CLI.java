@@ -53,14 +53,14 @@ public class CLI extends ViewNetwork implements Observer {
 	 */
 	private void printWelcome() {
 		
-		this.show(readFile("welcomeMsg.txt"));
+		this.show(readFile("/txt/welcomeMsg.txt"));
 	}
 	
 	/**
 	 * Prints the instructions on the console 
 	 */
 	private void printInstructions() {
-		this.show(readFile("/instructions.txt"));
+		this.show(readFile("/txt/instructions.txt"));
 	}
 	
 	/**
