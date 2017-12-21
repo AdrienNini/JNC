@@ -32,7 +32,7 @@ public class ModelNetwork extends Observable {
 			if(net.requestIP(size) == null) return false;
 			this.setChanged();
 		}
-		this.notifyObservers(net.getSubnets());
+		this.notifyObservers(this.getSubnets());
 		return true;
 	}
 	

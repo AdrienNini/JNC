@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.ScrollPaneConstants;
@@ -30,6 +31,7 @@ import javax.swing.event.DocumentListener;
 
 import controller.ControllerNetwork;
 import model.ModelNetwork;
+import model.Subnet;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -37,6 +39,9 @@ import net.miginfocom.swing.MigLayout;
  *
  */
 public class GUI extends ViewNetwork implements ActionListener {
+	
+	private int width;
+	private int height;
 	
 	// General GUI variables
 	private JFrame mainWindow;
@@ -54,16 +59,22 @@ public class GUI extends ViewNetwork implements ActionListener {
 	private ArrayList<JLabel> lblSubnets = new ArrayList<JLabel>();
 	private ArrayList<JSpinner> spinSubnets = new ArrayList<JSpinner>();
 	
+	// Third page GUI variables
+	private JScrollPane tableMain;
+	private JTable subnetTable;
+	
 	// Subnets
 	ArrayList<Integer> sizes = new ArrayList<Integer>();
 	
 	
 	
-	
-	public GUI(ModelNetwork m, ControllerNetwork c, int width, int height) {
+	public GUI(ModelNetwork m, ControllerNetwork c, int w, int h) {
 		super(m, c);
 		
-		this.createGUI(width, height, 1);
+		this.width = w;
+		this.height = h;
+		
+		this.createGUI(this.width, this.height, 3);
 		
 	}
 	
@@ -86,6 +97,10 @@ public class GUI extends ViewNetwork implements ActionListener {
 			
 		case 2:
 			this.showSecondPage(width, height);
+			break;
+			
+		case 3:
+			this.showThirdPage(width, height);
 			break;
 		}
 		
@@ -114,7 +129,6 @@ public class GUI extends ViewNetwork implements ActionListener {
 		requestIP.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				controller.createNetwork(ipField.getText(), (int) maskField.getValue());
-				JOptionPane.showMessageDialog(mainWindow, "Ip requested !");
 				clearWindow();
 				createGUI(width, height, 2);
 			}
@@ -209,6 +223,7 @@ public class GUI extends ViewNetwork implements ActionListener {
 				
 				if (!controller.requestIp(sizes)) {
 					JOptionPane.showMessageDialog(mainWindow, "Adressage Impossible ! Veuillez recommencer !");
+					sizes.clear();
 				} else {
 					JOptionPane.showMessageDialog(mainWindow, "Adressage Réussi");
 				}
@@ -234,6 +249,39 @@ public class GUI extends ViewNetwork implements ActionListener {
 		
 	}
 	
+	private void showThirdPage(int width, int height) {
+		
+		// Header
+		JPanel header = new JPanel();
+		this.contentPane.add(header, BorderLayout.NORTH);
+		
+		
+		JLabel lblHeader = new JLabel("Tableau d'adressage");
+		lblHeader.setHorizontalAlignment(SwingConstants.CENTER);
+		header.add(lblHeader);
+		
+		// Main
+		tableMain = new JScrollPane();
+		this.contentPane.add(tableMain, BorderLayout.CENTER);
+		
+		// Footer
+		JPanel footer = new JPanel();
+		this.contentPane.add(footer, BorderLayout.SOUTH);
+		
+		JButton exportCSV = new JButton("Exporter vers CSV");
+		footer.add(exportCSV);
+		
+		JButton close = new JButton("Quitter");
+		footer.add(close);
+		close.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+		
+		
+		
+	}
 	
 	// Methods for Second page
 	
@@ -247,6 +295,7 @@ public class GUI extends ViewNetwork implements ActionListener {
 		this.subEntry();
 	}
 	
+	
 	private void removeSubEntry() {
 		this.main.removeAll();
 		System.gc();
@@ -258,6 +307,7 @@ public class GUI extends ViewNetwork implements ActionListener {
 		
 		
 	}
+	
 	
 	private void subEntry() {
 		for (int i = 0; i < this.lblSubnets.size(); i++) {
@@ -275,6 +325,7 @@ public class GUI extends ViewNetwork implements ActionListener {
 		this.enableButton();
 	}
 	
+	
 	private void addButton() {
 		addSub = new JButton("+");
 		main.add(addSub, "cell 1 " + (this.lblSubnets.size()+1));
@@ -285,6 +336,7 @@ public class GUI extends ViewNetwork implements ActionListener {
 				
 		});
 	}
+	
 	
 	private JButton removeButton() {
 		JButton remove = new JButton("Supprimer");
@@ -312,6 +364,50 @@ public class GUI extends ViewNetwork implements ActionListener {
 		this.mainWindow.setVisible(false);
 	}
 	
+	// Table function
+	
+	private void createJTable(ArrayList<Subnet> subnets) {
+		String columns[] = {
+				"Adresse Réseau", 
+				"Première Adresse", 
+				"Dernière Adress", 
+				"Adresse de Broadcast", 
+				"Masque de sous-réseau"
+			};
+		
+		String data[][] = new String[subnets.size()][5];
+		
+		for (Subnet sub: subnets) {
+			int i = subnets.indexOf(sub);
+			data[i][0] = sub.getAddr();
+			data[i][1] = sub.getFirstIpHost();
+			data[i][2] = sub.getLastIpHost();
+			data[i][3] = sub.getBroadcast();
+			data[i][4] = sub.getMask();
+		}
+		
+		subnetTable = new JTable(data, columns);
+		
+		// JTable configuration
+		subnetTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		subnetTable.getTableHeader().setReorderingAllowed(false);
+		subnetTable.getTableHeader().setFont(new Font("Lucia Grande", Font.BOLD, 13));
+		subnetTable.setRowHeight(30);
+		subnetTable.setCellSelectionEnabled(false);
+		subnetTable.setRowSelectionAllowed(false);
+		subnetTable.setColumnSelectionAllowed(false);
+		subnetTable.setFocusable(false);
+		
+		
+		this.tableMain.setViewportView(subnetTable);
+		
+		this.mainWindow.validate();
+		this.mainWindow.repaint();
+		
+		
+	}
+	
+	
 	// General Methods
 
 	/* (non-Javadoc)
@@ -319,8 +415,11 @@ public class GUI extends ViewNetwork implements ActionListener {
 	 */
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-		
+		if (arg != null) {
+			this.clearWindow();
+			this.createGUI(800, 600, 3);
+			this.createJTable(this.model.getSubnets());
+		}
 	}
 
 	/* (non-Javadoc)
@@ -328,8 +427,7 @@ public class GUI extends ViewNetwork implements ActionListener {
 	 */
 	@Override
 	public void show(String string) {
-		// TODO Auto-generated method stub
-		
+		JOptionPane.showMessageDialog(this.mainWindow, string);
 	}
 
 	/* (non-Javadoc)

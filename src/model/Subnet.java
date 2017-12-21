@@ -90,4 +90,15 @@ public class Subnet extends IP{
 			);
 	}
 	
+	@Override
+	public  String toString() {
+		return String.format("Address Réseau : ‰s; Première Adresse : %s; Dernière Adresse : %s; Adresse de Broadcast : %s ; Masque de sous-réseau : %s;",
+					this.getAddr(),
+					this.getFirstIpHost(),
+					this.getLastIpHost(),
+					this.getBroadcast(),
+					this.getMask()
+				);
+	}
+	
 }

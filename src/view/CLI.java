@@ -43,7 +43,7 @@ public class CLI extends ViewNetwork implements Observer {
 			printWelcome();
 			printInstructions();
 		} else {
-			makeTable(model.getSubnets());
+			makeTable(this.model.getSubnets());
 		}
 		
 	}
@@ -176,6 +176,8 @@ public class CLI extends ViewNetwork implements Observer {
 	 * @param subnets : list of all the subnets
 	 */
 	private void makeTable(ArrayList<Subnet> subnets) {
+		
+		this.show("\n\nTable d'adressage :\n-------------------");
 		
 		for (Subnet sub: subnets) {
 			this.show(sub.toString());
