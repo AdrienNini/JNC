@@ -21,10 +21,23 @@ public class Client {
 	private BufferedReader in;
 	private PrintWriter out;
 	
+	/**
+	 * Constructor of Client.
+	 * Connects to the ISP server and do all the requests
+	 * @param port : port to connect to
+	 * @param addr : ip address to connect to (default localhost)
+	 * @throws IOException : sends the exceptions from the connect function
+	 */
 	public Client(int port, String addr) throws IOException {
 		connect(port, addr);
 	}
 	
+	/**
+	 * Sends a request message to the server.
+	 * @param size : message to send to the server
+	 * @return String[] : an array of two strings, the ip address and the mask
+	 * @throws IOException : throws the exceptions from send and receive functions
+	 */
 	public String[] request(int size) throws IOException {
 		
 		send(size);
@@ -33,10 +46,19 @@ public class Client {
 		
 	}
 	
+	/**
+	 * Sends a message to the server.
+	 * @param size : message sent to the server, contains a size / number of hosts 
+	 */
 	public void send(int size) {
 		out.println("" + size);
 	}
 	
+	/**
+	 * Receives the response of the server.
+	 * @return String[] : an array of two strings, the ip address and the mask
+	 * @throws IOException : throws the exceptions from the readLine function
+	 */
 	public String[] receive() throws IOException {
 		String[] receivedInfo = new String[2];
 		receivedInfo[0] = in.readLine();
@@ -47,6 +69,12 @@ public class Client {
 		return receivedInfo;
 	}
 	
+	/**
+	 * Connect to the ISP server.
+	 * @param port : port to connect to
+	 * @param addr : ip address to connect to 
+	 * @throws IOException : throws the exceptions from connection
+	 */
 	public void connect(int port, String addr) throws IOException {
 		
 		this.soc = new Socket(addr, port);
@@ -56,6 +84,10 @@ public class Client {
 						new OutputStreamWriter(this.soc.getOutputStream())), true);
 	}
 	
+	/**
+	 * Closes all the connections (in, out, socket).
+	 * @throws IOException : throws the exceptions form the closing of the connections
+	 */
 	public void closeConnection() throws IOException {
 		this.in.close();
 		this.out.close();

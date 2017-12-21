@@ -19,7 +19,21 @@ public class ISP {
 	private  int numberHost;
 	
 	
+	/**
+	 * Create a new server
+	 * @param port: port used by the server
+	 * @throws IOException : throws the exceptions from the connection function 
+	 */
+	public ISP(int port) throws IOException{
+		connect(port);
+	}
 	
+	
+	/**
+	 * Main function
+	 * Starts the server and waits for a request from Client
+	 * @param args : arguments passed to program
+	 */
 	public static void main(String[] args) {
 		IP ipList [] = {
 				new IP("10.0.0.0",8),
@@ -55,20 +69,11 @@ public class ISP {
 		
 		
 	}
-	
-	/**
-	 * creat a new server
-	 * @param port: port use by the sever
-	 * @throws IOException 
-	 */
-	public ISP(int port) throws IOException{
-		connect(port);
-	}
 
 	/**
-	 * connect the server
-	 * @param port: port use by the sever
-	 * @throws IOException 
+	 * Connect the server
+	 * @param port: port used by the server
+	 * @throws IOException : throws the exceptions from the creation of the server
 	 */
 	public void connect(int port)throws IOException{
 		System.out.println("server creat on port: " + port);
@@ -80,6 +85,10 @@ public class ISP {
 						new OutputStreamWriter(socket.getOutputStream())), true);
 	}
 	
+	/**
+	 * Closes the connection
+	 * @throws IOException : throws the exceptions from the closing of the connections
+	 */
 	public void closeConnection() throws IOException {
 		this.in.close();
 		this.out.close();
@@ -87,9 +96,9 @@ public class ISP {
 	}
 
 	/**
-	 * wait a messege from the application for the numbre of of the user
-	 * @return
-	 * @throws IOException 
+	 * Waits a message from the application
+	 * @return int : message received
+	 * @throws IOException : throws the exceptions from the readLine function
 	 */
 	public int waitForMessage() throws IOException {
 		int msg = Integer.parseInt(in.readLine());
@@ -97,8 +106,8 @@ public class ISP {
 	}
 
 	/**
-	 * send a ip at the software ask a new ip for a network
-	 * @param ip : ip for a new network
+	 * Sends a message to the software
+	 * @param msg : message
 	 */
 	public void sendMessage(String msg) {
 		out.println(msg);

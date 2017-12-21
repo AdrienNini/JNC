@@ -21,6 +21,13 @@ public abstract class ViewNetwork implements Observer {
 	protected ModelNetwork model;
 	protected ControllerNetwork controller;
 	
+	/**
+	 * Constructor for View.
+	 * Adds the model and the controller.
+	 * Adds it's on the Observers list of the model
+	 * @param m : model
+	 * @param c : controller
+	 */
 	public ViewNetwork(ModelNetwork m, ControllerNetwork c) {
 		this.model = m;
 		this.controller = c;

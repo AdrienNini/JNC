@@ -90,6 +90,9 @@ public class Subnet extends IP{
 			);
 	}
 	
+	/* (non-Javadoc)
+	 * @see model.IP#toString()
+	 */
 	@Override
 	public  String toString() {
 		return String.format("Address Réseau : ‰s; Première Adresse : %s; Dernière Adresse : %s; Adresse de Broadcast : %s ; Masque de sous-réseau : %s;",

@@ -27,21 +27,8 @@ public class NetworkTest {
 		
 	}
 
-	/**
-	 * Test method for {@link model.Network#getSubnets()}.
-	 */
-	@Test
-	public void testGetSubnets() {
-		fail("Not yet implemented"); // TODO
-	}
 
-	/**
-	 * Test method for {@link model.Network#setSubnets(java.util.ArrayList)}.
-	 */
-	@Test
-	public void testSetSubnets() {
-		fail("Not yet implemented"); // TODO
-	}
+
 
 	/**
 	 * Test method for {@link model.Network#requestIP(int)}.

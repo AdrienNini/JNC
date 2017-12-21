@@ -82,7 +82,7 @@ public class CLI extends ViewNetwork implements Observer {
 				
 				int size = 0;
 				
-				// REQUEST THE NETMASK TO THE USER
+				// REQUEST THE NUMBER OF HOSTS NEEDED TO THE USER
 				boolean isSizeOk = false;
 				
 				while (!isSizeOk) {

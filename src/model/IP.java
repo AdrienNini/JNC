@@ -59,6 +59,11 @@ public abstract class IP {
 		
 	}
 	
+	/**
+	 * Returns the number of hosts possible based on a mask
+	 * @param m : mask
+	 * @return int : number of hosts possible
+	 */
 	public int getHosts(int m) {
 		return (int) Math.pow(2, 32-m) - 2;
 	}

@@ -23,6 +23,10 @@ public class Main {
 	private ViewNetwork gui;
 	
 	
+	/**
+	 * Main class of the Program.
+	 * Initializes all the infrastructure for the MVC Pattern
+	 */
 	public Main() {
 		
 		this.m = new ModelNetwork();
