@@ -33,13 +33,22 @@ public class IPTest extends IP{
 	public void testGetHosts() {
 		
 		for (int i = 0; i < 33; i++) {
-			//System.out.println(i);
 			this.mask = i;
 			assertEquals((int) Math.pow(2, 32-i) - 2, this.getHosts(), 0);
 		}
 		
 	}
 
+	/**
+	 * Test method for {@link model.IP#getHosts(int)}.
+	 */
+	@Test
+	public void testGetHostsInt() {
+		for (int i = 0; i < 33; i++) {
+			assertEquals((int) Math.pow(2, 32-i) - 2, this.getHosts(i), 0);
+		}
+	}
+	
 	/**
 	 * Test method for {@link model.IP#getAddr()}.
 	 */

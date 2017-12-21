@@ -42,4 +42,12 @@ public class SubnetTest {
 		assertEquals("192.168.0.63", sub.getBroadcast());
 	}
 
+	/**
+	 * Test method for {@link model.Subnet#getNextSubnetAddr()}.
+	 */
+	@Test
+	public void testGetNextSubnetAddr() {
+		Subnet sub = new Subnet("192.168.0.0", 25);
+		assertEquals("192.168.0.128", sub.getNextSubnetAddr());
+	}
 }
