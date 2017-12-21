@@ -3,10 +3,12 @@
  */
 package controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
 import model.ModelNetwork;
+import socket.Client;
 import view.ViewNetwork;
 
 /**
@@ -40,8 +42,17 @@ public class ControllerNetwork {
 	}
 	
 	public boolean requestISP(int size) {
-		model.createNetwork("192.168.0.0", 24);
-		view.show("L'adresse IP suivante vous a été attribuée : 192.168.0.0\n");
+		Client c;
+		String[] requestedIP = null;
+		try {
+			c = new Client(5555, "localhost");
+			requestedIP = c.request(size);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		model.createNetwork(requestedIP[0], Integer.parseInt(requestedIP[1]));
+		view.show("L'adresse IP suivante vous a été attribuée : " + requestedIP[0] + "/" + requestedIP[1] + "\n");
 		return true;
 	}
 	
