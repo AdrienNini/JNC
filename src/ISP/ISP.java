@@ -21,32 +21,39 @@ public class ISP {
 	
 	
 	public static void main(String[] args) {
-		IP ipList [] = new IP[3];
-		ipList[0] = new IP("10.0.0.0",8);
-		ipList[1] = new IP("172.16.0.0",12);
-		ipList[2] = new IP("192.168.0.0",16);
-
-		int mask;
+		IP ipList [] = {
+				new IP("10.0.0.0",8),
+				new IP("172.16.0.0",16),
+				new IP("192.168.0.0",24)
+		};
+		
+		ISP server = null;
+		try {
+			server = new ISP(5555);
+		} catch (IOException e) {
+			System.out.println("Un serveur ISP est déjà lancé... fermeture...");
+			System.exit(1);
+		}
 		
 		try {
-			ISP server = new ISP(Integer.parseInt(args[0]));
-			while(true){
-				server.numberHost = Integer.parseInt(server.waitForMessage());
-				mask =  (int) Math.ceil(Math.log10(server.numberHost) / Math.log10(2.));
-				for(int i = 0; i < ipList.length; i++){
-					if(ipList[i].getCIDR() > mask){
-						server.sendMessage(ipList[i-1].getAddr());
-						server.sendMessage("" + ipList[i-1].getCIDR());
-					}
+			server.numberHost = server.waitForMessage();
+			
+			for(int i = ipList.length-1; i >= 0; i--){
+				
+				if(ipList[i].getHosts() > server.numberHost){
+					server.sendMessage(ipList[i].getAddr());
+					server.sendMessage("" + ipList[i].getCIDR());
 				}
+				
 			}
-
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
+			
+			server.closeConnection();
+	
 		} catch (IOException e) {
-			// TODO Auto-generated catch blockµ
 			e.printStackTrace();
 		}
+		
+		
 	}
 	
 	/**
@@ -56,7 +63,6 @@ public class ISP {
 	 */
 	public ISP(int port) throws IOException{
 		connect(port);
-
 	}
 
 	/**
@@ -85,9 +91,9 @@ public class ISP {
 	 * @return
 	 * @throws IOException 
 	 */
-	public String waitForMessage() throws IOException {
-		String str = in.readLine();
-		return str;
+	public int waitForMessage() throws IOException {
+		int msg = Integer.parseInt(in.readLine());
+		return msg;
 	}
 
 	/**

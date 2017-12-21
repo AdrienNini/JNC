@@ -34,7 +34,7 @@ public class Client {
 	}
 	
 	public void send(int size) {
-		out.println(size);
+		out.println("" + size);
 	}
 	
 	public String[] receive() throws IOException {
