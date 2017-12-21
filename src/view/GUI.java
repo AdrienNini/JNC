@@ -4,7 +4,6 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -20,14 +19,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 
 import controller.ControllerNetwork;
 import model.ModelNetwork;
@@ -48,8 +44,7 @@ public class GUI extends ViewNetwork implements ActionListener {
 	private JPanel contentPane;
 	
 	// First page GUI variables
-	private JTextField ipField;
-	private JSpinner maskField;
+	private JSpinner sizeField;
 	private JButton requestIP;
 	
 	// Second page GUI variables
@@ -74,7 +69,7 @@ public class GUI extends ViewNetwork implements ActionListener {
 		this.width = w;
 		this.height = h;
 		
-		this.createGUI(this.width, this.height, 3);
+		this.createGUI(this.width, this.height, 1);
 		
 	}
 	
@@ -128,12 +123,13 @@ public class GUI extends ViewNetwork implements ActionListener {
 		footer.add(requestIP);		
 		requestIP.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				controller.createNetwork(ipField.getText(), (int) maskField.getValue());
+				if (!controller.requestISP((int) sizeField.getValue())) {
+					show("La requête a échoué, veuillez recommencer");
+				}
 				clearWindow();
 				createGUI(width, height, 2);
 			}
 		});
-		requestIP.setEnabled(false);
 		
 		// Instructions (SIDE)
 		JScrollPane instructionsPane = new JScrollPane();
@@ -155,42 +151,11 @@ public class GUI extends ViewNetwork implements ActionListener {
 		this.contentPane.add(mainForm, BorderLayout.CENTER);
 		mainForm.setLayout(new MigLayout("", "[][][][grow]", "[][][][][]"));
 		
-		JLabel lblIp = new JLabel("Adresse IP :");
-		mainForm.add(lblIp, "cell 1 1");
-		
-		ipField = new JTextField();
-		mainForm.add(ipField, "cell 3 1, growx");
-		ipField.getDocument().addDocumentListener(new DocumentListener() {
-
-			@Override
-			public void insertUpdate(DocumentEvent e) {
-				this.check(ipField.getText());
-			}
-
-			@Override
-			public void removeUpdate(DocumentEvent e) {
-				this.check(ipField.getText());
-			}
-
-			@Override
-			public void changedUpdate(DocumentEvent e) {}
-			
-			public void check(String ip) {
-				if (!ip.matches("\\b((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\\.|$)){4}\\b")) {
-					ipField.setBackground(new Color(255, 0, 0, 50));
-				} else {
-					ipField.setBackground(new Color(0, 255, 0, 50));
-					requestIP.setEnabled(true);
-				}
-			}
-			
-		});
-		
-		JLabel lblMask = new JLabel("Masque de sous-réseau");
+		JLabel lblMask = new JLabel("Nombre d'hôtes necéssaires :");
 		mainForm.add(lblMask, "cell 1 3");
 		
-		maskField = new JSpinner(new SpinnerNumberModel(1, 1, 32, 1));
-		mainForm.add(maskField, "cell 3 3");
+		sizeField = new JSpinner(new SpinnerNumberModel(1, 1, null, 1));
+		mainForm.add(sizeField, "cell 3 3, growx");
 		
 	}
 	

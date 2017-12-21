@@ -61,6 +61,7 @@ public class CLI extends ViewNetwork implements Observer {
 	 */
 	private void printInstructions() {
 		this.show(readFile("/txt/instructions.txt"));
+		this.show("Pour quitter le programme, tapez sur ctrl + C\n\n");
 	}
 	
 	/**
@@ -79,63 +80,50 @@ public class CLI extends ViewNetwork implements Observer {
 			
 			while(!endProgram) {
 				
-				String ip = null;
-				int mask = 0;
-				
-				// REQUEST THE IP ADDRESS TO THE USER
-				boolean isIpOk = false;
-				
-				while (!isIpOk) {
-					show("Veuillez entrez votre adresse IPv4 :");
-					ip = sc.next();
-					if (ip.matches("\\b((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\\.|$)){4}\\b")) { // Check if the input respects the forma
-						if (isIpOk = confirm("Confirmez-vous l'adresse ip suivante ? " + ip)) {
-							show("Adresse ip confirmée !\n");
-						}
-					} else {
-						show("Veuillez entrez une adresse ip au bon format !\n");
-					}
-				}
+				int size = 0;
 				
 				// REQUEST THE NETMASK TO THE USER
-				boolean isMaskOk = false;
+				boolean isSizeOk = false;
 				
-				while (!isMaskOk) {
-					show("Veuillez entrez le masque au format CIDR (sans le slash) :");
+				while (!isSizeOk) {
+					show("Veuillez entrez Le nombre d'hôtes necéssaires :");
 					try {
-						mask = sc.nextInt();
-						if (0 < mask && mask <= 32) {
-							if(isMaskOk = confirm("Confirmez-vous le masque suivant ? : " + mask)) {
-								show("Masque confirmé !\n");
+						size = sc.nextInt();
+						if (0 < size) {
+							if(isSizeOk = confirm("Confirmez-vous le nombre d'hôtes suivant ? : " + size)) {
+								show("Nombre d'hôtes confirmé !\n");
 							} 
 						} else {
-							show("Le masque ne peut pas être inférieur à 0 ou supérieur a 32 !\n");
+							show("Le nombre d'hôtes doit être suppérieur à 0 !\n");
 						}
 					} catch (InputMismatchException e) {
-						show("Veuillez entrer un masque correcte !\n");
+						show("Veuillez entrer un nombre d'hôtes correct !\n");
 						sc.nextLine();
+					}
+					
+					// Asking the controller to create the network
+					if (!(isSizeOk = controller.requestISP(size))) {
+						show("La requête a échoué, veuillez recommencer");
 					}
 				}
 				
-				// Asking the controller to create the network
-				controller.createNetwork(ip, mask);
-				show("Vous avez le réseau : " + controller.getNetwork() + "\n");
+				
 				
 				// Asking the size for each subnet
 				boolean nextSubnet = true;
-				ArrayList<Integer> sizes = new ArrayList<Integer>();
-				int size;
+				ArrayList<Integer> subSizes = new ArrayList<Integer>();
+				int subSize;
 				int i = 1;
 				
 				while (nextSubnet) {
 					show("Entrez la nombre de hôtes pour le sous-réseau n°"+ i + " :");
 					try {
-						size = sc.nextInt();
-						if (size > 0) {
-							if (confirm("Confirmez-vous la taille suivante ? : " + size )) {
-								sizes.add(size);
+						subSize = sc.nextInt();
+						if (subSize > 0) {
+							if (confirm("Confirmez-vous la taille suivante ? : " + subSize )) {
+								subSizes.add(subSize);
 								if (!(nextSubnet = confirm("Voulez-vous ajouter un autre sous-réseau ?"))) {
-									if (!controller.requestIp(sizes)) {
+									if (!controller.requestIp(subSizes)) {
 										show("Votre adressage est impossible ! Veuillez recommencer...\n");
 										nextSubnet = true;
 										i = 0;

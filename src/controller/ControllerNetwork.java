@@ -39,6 +39,12 @@ public class ControllerNetwork {
 		return model.requestIp(sizes);
 	}
 	
+	public boolean requestISP(int size) {
+		model.createNetwork("192.168.0.0", 24);
+		view.show("L'adresse IP suivante vous a été attribuée : 192.168.0.0\n");
+		return true;
+	}
+	
 	public void addView(ViewNetwork v) {
 		this.view = v;
 	}
