@@ -1,5 +1,5 @@
-/**
- * 
+/*
+ * Groupe 9 - Adrien Nini Pereira - Xavier De Beck
  */
 package main;
 
@@ -8,7 +8,9 @@ import java.awt.EventQueue;
 
 import controller.ControllerNetwork;
 import model.ModelNetwork;
-import view.*;
+import view.CLI;
+import view.GUI;
+import view.ViewNetwork;
 
 /**
  * @author Adrien

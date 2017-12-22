@@ -1,14 +1,16 @@
-/**
- * 
+/*
+ * Groupe 9 - Adrien Nini Pereira - Xavier De Beck
  */
 package jUnit;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 
 import org.junit.Test;
-import model.*;
+
+import model.Network;
+import model.Subnet;
 
 /**
  * @author Adrien

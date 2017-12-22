@@ -1,5 +1,5 @@
-/**
- * 
+/*
+ * Groupe 9 - Adrien Nini Pereira - Xavier De Beck
  */
 package controller;
 

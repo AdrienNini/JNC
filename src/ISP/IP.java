@@ -1,7 +1,5 @@
-/* GROUPE n°9  */
-
-/**
- * 
+/*
+ * Groupe 9 - Adrien Nini Pereira - Xavier De Beck
  */
 package ISP;
 
