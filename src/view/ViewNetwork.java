@@ -3,10 +3,6 @@
  */
 package view;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Observer;
 
 import controller.ControllerNetwork;
@@ -17,6 +13,29 @@ import model.ModelNetwork;
  *
  */
 public abstract class ViewNetwork implements Observer {
+	
+	protected static final String welcomeMsg = "╔═════════════════════════════════════════════════════════════════════════════╗\n" + 
+											  "║  _    _      _                            _            ___ _   _ _____   _  ║\n" + 
+											  "║ | |  | |    | |                          | |          |_  | \\ | /  __ \\ | | ║\n" + 
+											  "║ | |  | | ___| | ___ ___  _ __ ___   ___  | |_ ___       | |  \\| | /  \\/ | | ║\n" + 
+											  "║ | |/\\| |/ _ \\ |/ __/ _ \\| '_ ` _ \\ / _ \\ | __/ _ \\      | | . ` | |     | | ║\n" + 
+											  "║ \\  /\\  /  __/ | (_| (_) | | | | | |  __/ | || (_) | /\\__/ / |\\  | \\__/\\ |_| ║\n" + 
+											  "║  \\/  \\/ \\___|_|\\___\\___/|_| |_| |_|\\___|  \\__\\___/  \\____/\\_| \\_/\\____/ (_) ║\n" + 
+											  "║                                                                         v1.0║\n" + 
+											  "╚═════════════════════════════════════════════════════════════════════════════╝\n" + 
+											  "\n" + 
+											  " Ce programme vous permet de calculer une table d’adressage rapidement et\n" + 
+											  " simplement.\n" + 
+											  " \n" + 
+											  " ──────────────────────────────────────────────────────────────────────────────\n" + 
+											  " ";
+	
+	protected static final String instructions = "INSTRUCTIONS :\n" + 
+												"¯¯¯¯¯¯¯¯¯¯¯¯¯¯\n" + 
+												"1. Entrez votre adresse IPv4 au format xxx.xxx.xxx.xxx\n" + 
+												"2. Entrez votre masque de sous-réseau au format CIDR (ex: /24, /26)\n" + 
+												"3. Entrez le nombre d'hôtes dont vous avez besoin pour chaque sous-réseau\n" + 
+												"4. Répétez l'étape 3 autant de fois que nécéssaire";
 	
 	protected ModelNetwork model;
 	protected ControllerNetwork controller;
@@ -41,35 +60,6 @@ public abstract class ViewNetwork implements Observer {
 	 */
 	public abstract void show(String string);
 	
-	/**
-	 * Read a text file from a directory and return its content
-	 * @param path : absolute path to the file
-	 * @return String : the file content
-	 */
-	protected String readFile(String path) {
-		String out = ""; 
-	    try { 
-	      BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(getPath() + path))); 
-	      String line = ""; 
-	       
-	      while ((line =  reader.readLine()) != null) { 
-	        out += line + "\n"; 
-	      } 
-	       
-	      reader.close(); 
-	    } catch (IOException e) { 
-	      System.err.println("Error !"); 
-	    } 
-	    return out; 
-		
-	}
-	
-	/** 
-	   * Returns the current working directory 
-	   * @return String : path to working directory 
-	   */ 
-	  protected String getPath() { 
-	    return System.getProperty("user.dir"); 
-	  } 
+
 
 }

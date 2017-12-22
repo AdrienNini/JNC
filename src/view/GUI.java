@@ -165,7 +165,7 @@ public class GUI extends ViewNetwork {
 
 		JTextPane instructions = new JTextPane();
 		instructions.setEditable(false);
-		instructions.setText(this.readFile("/txt/instructions.txt"));
+		instructions.setText(GUI.instructions);
 		instructions.setCaretPosition(0);
 		instructionsPane.setViewportView(instructions);
 
