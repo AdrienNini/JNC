@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Observable;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -24,8 +25,10 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import controller.ControllerNetwork;
+import csv.CSV;
 import model.ModelNetwork;
 import model.Subnet;
 import net.miginfocom.swing.MigLayout;
@@ -60,6 +63,7 @@ public class GUI extends ViewNetwork {
 
 	// Subnets
 	ArrayList<Integer> sizes = new ArrayList<Integer>();
+	ArrayList<Subnet> subnets;
 
 
 
@@ -361,6 +365,11 @@ public class GUI extends ViewNetwork {
 
 		JButton exportCSV = new JButton("Exporter vers CSV");
 		footer.add(exportCSV);
+		exportCSV.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fileChooser();
+			}
+		});
 
 		JButton close = new JButton("Quitter");
 		footer.add(close);
@@ -373,6 +382,22 @@ public class GUI extends ViewNetwork {
 
 
 	}
+	
+	private void fileChooser() {
+		JFileChooser chooser = new JFileChooser();
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("CSV files (*.csv)", "csv");
+		chooser.setFileFilter(filter);
+		chooser.setDialogTitle("Enregistrer votre adressage");
+		chooser.showSaveDialog(this.mainWindow);
+		
+		CSV.writeToCSV(new String[]{
+				"Adresse Réseau", 
+				"Première Adresse", 
+				"Dernière Adress", 
+				"Adresse de Broadcast", 
+				"Masque de sous-réseau"
+		}, this.subnets, chooser.getSelectedFile().getPath());
+	}
 
 
 	// Methods for Third Page
@@ -382,6 +407,9 @@ public class GUI extends ViewNetwork {
 	 * @param subnets : Subnet to fill in the table 
 	 */
 	private void createJTable(ArrayList<Subnet> subnets) {
+		
+		this.subnets = subnets;
+		
 		String columns[] = {
 				"Adresse Réseau", 
 				"Première Adresse", 

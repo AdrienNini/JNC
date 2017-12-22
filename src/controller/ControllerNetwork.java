@@ -80,6 +80,7 @@ public class ControllerNetwork {
 		return true;
 	}
 	
+	
 	/**
 	 * Adds the view to the controller.
 	 * @param v : view
