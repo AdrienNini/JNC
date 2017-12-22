@@ -21,7 +21,7 @@ public abstract class ViewNetwork implements Observer {
 											  "║ | |/\\| |/ _ \\ |/ __/ _ \\| '_ ` _ \\ / _ \\ | __/ _ \\      | | . ` | |     | | ║\n" + 
 											  "║ \\  /\\  /  __/ | (_| (_) | | | | | |  __/ | || (_) | /\\__/ / |\\  | \\__/\\ |_| ║\n" + 
 											  "║  \\/  \\/ \\___|_|\\___\\___/|_| |_| |_|\\___|  \\__\\___/  \\____/\\_| \\_/\\____/ (_) ║\n" + 
-											  "║                                                                         v1.0║\n" + 
+											  "║                                                                         v2.0║\n" + 
 											  "╚═════════════════════════════════════════════════════════════════════════════╝\n" + 
 											  "\n" + 
 											  " Ce programme vous permet de calculer une table d’adressage rapidement et\n" + 
@@ -32,10 +32,9 @@ public abstract class ViewNetwork implements Observer {
 	
 	protected static final String instructions = "INSTRUCTIONS :\n" + 
 												"¯¯¯¯¯¯¯¯¯¯¯¯¯¯\n" + 
-												"1. Entrez votre adresse IPv4 au format xxx.xxx.xxx.xxx\n" + 
-												"2. Entrez votre masque de sous-réseau au format CIDR (ex: /24, /26)\n" + 
-												"3. Entrez le nombre d'hôtes dont vous avez besoin pour chaque sous-réseau\n" + 
-												"4. Répétez l'étape 3 autant de fois que nécéssaire";
+												"1. Entrez le nombre d'hôtes dont vous avez besoin pour votre réseau global\n" + 
+												"2. Entrez le nombre d'hôtes dont vous avez besoin pour chaque sous-réseau\n" + 
+												"3. Répétez l'étape 3 autant de fois que nécéssaire";
 	
 	protected ModelNetwork model;
 	protected ControllerNetwork controller;
